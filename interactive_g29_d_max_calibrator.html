@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G29 Isuzu D-Max 2026 Calibration Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        /* Custom styled range slider to mimic premium automotive dials */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #f97316;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #f97316;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+<!-- Chosen Palette: Slate and Solar Orange -->
+<!-- Application Structure Plan: A single-page automotive dashboard focusing on visual calibration of a Logitech G29 wheel matched to a 1:12 scale 2026 Isuzu D-Max. Features a simulated dual-guage visualizer for steering angles, an interactive command builder for ffset parameters, and a CSS-based schematic block mapping system connections. This design lets engineers dynamically visualize structural setups and export direct terminal syntaxes instantly. -->
+<!-- Visualization & Content Choices: G29 Wheel Indicator -> Goal: Change -> Custom Canvas-rendered steering gauge -> Interaction: Drag-to-rotate wheel -> Justifies showing real-time scaling comparison. ffset Calibrator -> Goal: Compare -> Numeric slider controls -> Interaction: Live adjustment -> Justifies generating tailored bash terminal strings based on real-world stiffness choices. Connection Map -> Goal: Organize -> Pure HTML block layouts -> Justifies direct, clean visualization of hardware without bloated libraries. NO SVG/Mermaid used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <!-- HEADER MODULE -->
+        <header class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-gray-800 pb-6 gap-4">
+            <div>
+                <span class="px-3 py-1 text-xs font-bold bg-orange-500/10 text-orange-400 rounded-full border border-orange-500/20 uppercase tracking-wider">Calibration Profile: Active</span>
+                <h1 class="text-3xl font-extrabold tracking-tight mt-2 text-white">Isuzu D-Max 2.2 (2026) Scale Calibration</h1>
+                <p class="text-gray-400 mt-1 text-sm">Interactive Force Feedback (ffset) and steering ratio design matrix</p>
+            </div>
+            <div class="bg-gray-900 border border-gray-800 p-3 rounded-xl flex items-center gap-3">
+                <div class="w-2.5 h-2.5 bg-orange-500 rounded-full animate-pulse"></div>
+                <div class="text-xs font-mono text-gray-300">Target Model: 1:12 Scale D-Max 2.2</div>
+            </div>
+        </header>
+
+        <!-- TOP LEVEL GRAPHICS & ILLUSTRATION BLOCK -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- COLUMN 1: VISUAL PORT SCHEMATIC (THE "HOW-TO" CHART) -->
+            <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 space-y-6">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <span class="text-orange-500 font-mono">&#9670;</span>
+                    Connection & Port Map
+                </h2>
+                <p class="text-xs text-gray-400">Follow this port diagram to ensure the Linux kernel detects raw hardware inputs properly.</p>
+                
+                <!-- Graphic connection map using structured HTML/CSS blocks -->
+                <div class="space-y-4">
+                    <!-- G29 block -->
+                    <div class="p-3 bg-gray-900 border border-gray-800 rounded-xl relative">
+                        <div class="text-xs font-bold text-gray-400 uppercase">Input Device</div>
+                        <div class="text-sm font-black text-white mt-1">Logitech G29 Wheel Base</div>
+                        <div class="mt-2 flex gap-2">
+                            <span class="px-2 py-0.5 text-[9px] bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 rounded font-mono">PS3 Mode Switch</span>
+                            <span class="px-2 py-0.5 text-[9px] bg-orange-500/10 text-orange-300 border border-orange-500/20 rounded font-mono">USB 2.0 Class</span>
+                        </div>
+                    </div>
+
+                    <!-- Flow path visualizer -->
+                    <div class="flex justify-center my-1">
+                        <div class="h-6 w-0.5 border-l-2 border-dashed border-gray-700"></div>
+                    </div>
+
+                    <!-- Raspberry Pi block -->
+                    <div class="p-3 bg-gray-900 border border-gray-800 rounded-xl">
+                        <div class="text-xs font-bold text-gray-400 uppercase">Process Node</div>
+                        <div class="text-sm font-black text-white mt-1">Raspberry Pi 4 / 5 Console</div>
+                        <div class="mt-2 flex gap-2">
+                            <span class="px-2 py-0.5 text-[9px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 rounded font-mono">USB 3.0 Blue Port</span>
+                            <span class="px-2 py-0.5 text-[9px] bg-gray-800 text-gray-300 rounded font-mono">/dev/input/js0</span>
+                        </div>
+                    </div>
+
+                    <!-- Flow path visualizer -->
+                    <div class="flex justify-center my-1">
+                        <div class="h-6 w-0.5 border-l-2 border-dashed border-gray-700"></div>
+                    </div>
+
+                    <!-- ESP32 Receiver block -->
+                    <div class="p-3 bg-gray-900 border border-gray-800 rounded-xl">
+                        <div class="text-xs font-bold text-gray-400 uppercase">Output Receiver</div>
+                        <div class="text-sm font-black text-white mt-1">ESP32 (1:12 Scale D-Max)</div>
+                        <div class="mt-2 flex gap-2">
+                            <span class="px-2 py-0.5 text-[9px] bg-sky-500/10 text-sky-300 border border-sky-500/20 rounded font-mono">IP: 192.168.4.1</span>
+                            <span class="px-2 py-0.5 text-[9px] bg-orange-500/10 text-orange-400 border border-orange-500/20 rounded font-mono">Pin 13 Servo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: INTERACTIVE STEERING WHEEL AND SCALE GAUGE -->
+            <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span class="text-orange-500 font-mono">&#9670;</span>
+                        Interactive Steering Calibration
+                    </h2>
+                    <p class="text-xs text-gray-400 mb-6">Drag the slider to rotate the wheel and observe how the custom D-Max 2026 scaling ratio maps to the 1:12 scale steering servo.</p>
+                    
+                    <!-- Canvas indicator box -->
+                    <div class="relative w-48 h-48 mx-auto flex items-center justify-center bg-gray-900 rounded-full border border-gray-800 mb-6 shadow-inner">
+                        <canvas id="wheelCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                        <!-- Center status card -->
+                        <div class="z-10 text-center pointer-events-none">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">G29 Position</span>
+                            <div id="gauge-deg" class="text-xl font-mono font-black text-white">0°</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Slider Input -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-mono text-gray-400">
+                            <span>Left Lock (-180°)</span>
+                            <span>Right Lock (+180°)</span>
+                        </div>
+                        <input id="input-steer" type="range" min="-180" max="180" value="0" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Live Map Result Panel -->
+                <div class="mt-4 pt-4 border-t border-gray-800/60 grid grid-cols-2 gap-4 text-center">
+                    <div class="bg-gray-900/60 p-2.5 rounded-xl border border-gray-900">
+                        <span class="text-[9px] text-gray-500 block uppercase font-mono">D-Max Ratio Output</span>
+                        <span id="output-servo" class="text-lg font-black text-orange-400 font-mono">90°</span>
+                        <span class="text-[8px] text-gray-400 block uppercase mt-0.5">Servo Angle</span>
+                    </div>
+                    <div class="bg-gray-900/60 p-2.5 rounded-xl border border-gray-900">
+                        <span class="text-[9px] text-gray-500 block uppercase font-mono">G29 Input Axis</span>
+                        <span id="output-axis" class="text-lg font-black text-white font-mono">0.00</span>
+                        <span class="text-[8px] text-gray-400 block uppercase mt-0.5">Raw Value</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMN 3: FORCE FEEDBACK (ffset) TUNER -->
+            <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span class="text-orange-500 font-mono">&#9670;</span>
+                        Force Feedback (ffset) Calibrator
+                    </h2>
+                    <p class="text-xs text-gray-400 mb-6">Select a pre-configured 2026 Isuzu D-Max hydraulic speed-assist profile, or manually tune the auto-centering spring resistance below.</p>
+                    
+                    <!-- Pre-set Buttons -->
+                    <div class="grid grid-cols-3 gap-2 mb-6">
+                        <button onclick="setFFPreset('low')" class="py-2 px-1.5 text-[10px] bg-gray-900 border border-gray-800 hover:border-orange-500/40 text-gray-300 font-mono rounded-lg transition-all">Parking (Fluid/Light)</button>
+                        <button onclick="setFFPreset('dmax')" class="py-2 px-1.5 text-[10px] bg-orange-600 border border-orange-500 text-white font-mono font-bold rounded-lg transition-all shadow-lg shadow-orange-500/10">D-Max EPS (Target)</button>
+                        <button onclick="setFFPreset('high')" class="py-2 px-1.5 text-[10px] bg-gray-900 border border-gray-800 hover:border-orange-500/40 text-gray-300 font-mono rounded-lg transition-all">Off-Road (Heavy)</button>
+                    </div>
+
+                    <!-- Fine tuning Slider -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-gray-300">Autocenter Force (Stiffness)</span>
+                            <span id="label-stiffness" class="font-mono text-orange-400 font-bold">20% Profile</span>
+                        </div>
+                        <input id="input-stiffness" type="range" min="0" max="10000" value="2000" step="500" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer">
+                        <p class="text-[10px] text-gray-500 leading-relaxed">Lower values yield smooth, effortless power steering. Higher values mimic manual steering boxes, making the wheel fight back aggressively during turns.</p>
+                    </div>
+                </div>
+
+                <!-- Command Generator Console -->
+                <div class="mt-6 pt-4 border-t border-gray-800/60">
+                    <span class="text-[10px] text-gray-400 block uppercase font-mono mb-2">Generated Linux Terminal Command</span>
+                    <div class="bg-gray-900 border border-gray-900 rounded-xl p-3 font-mono text-xs text-orange-300 select-all cursor-pointer relative group">
+                        <code id="terminal-command">ffset -a 2000 /dev/input/by-id/*Logitech*</code>
+                        <span class="absolute top-2 right-2 text-[8px] bg-orange-500/20 text-orange-400 border border-orange-500/20 px-1 rounded uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Copy</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PHYSICAL SETUP & DEBUGGING WORKFLOW (WITH GRAPHICS) -->
+        <section class="bg-gray-950 border border-gray-800 rounded-2xl p-6">
+            <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <span class="text-orange-500 font-mono">&#9670;</span>
+                The Physical G29 Calibration Checklist
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 font-mono text-xs">
+                <!-- Checkpoint 1 -->
+                <div class="space-y-2 p-4 bg-gray-900/40 border border-gray-900 rounded-xl">
+                    <div class="text-orange-500 font-bold">STEP 01</div>
+                    <div class="font-bold text-white uppercase text-xs">Hardware Lock</div>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Turn G29 slide switch to "PS3" mode before plugging USB into Pi. Standardizes kernel input layout.</p>
+                </div>
+                
+                <!-- Checkpoint 2 -->
+                <div class="space-y-2 p-4 bg-gray-900/40 border border-gray-900 rounded-xl">
+                    <div class="text-orange-500 font-bold">STEP 02</div>
+                    <div class="font-bold text-white uppercase text-xs">Verify Kernel</div>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Run 'jstest /dev/input/js0' to check raw axis responses. Turn G29; Axis 0 should move from -32767 to 32767.</p>
+                </div>
+
+                <!-- Checkpoint 3 -->
+                <div class="space-y-2 p-4 bg-gray-900/40 border border-gray-900 rounded-xl">
+                    <div class="text-orange-500 font-bold">STEP 03</div>
+                    <div class="font-bold text-white uppercase text-xs">Deploy FFB</div>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Execute generated 'ffset' command in bash. Autocenter springs instantly relax to emulated Isuzu D-Max EPS feel.</p>
+                </div>
+
+                <!-- Checkpoint 4 -->
+                <div class="space-y-2 p-4 bg-gray-900/40 border border-gray-900 rounded-xl">
+                    <div class="text-orange-500 font-bold">STEP 04</div>
+                    <div class="font-bold text-white uppercase text-xs">Diorama Test</div>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Run 'mainapp_V4.py'. Ensure 1/2 G29 wheel turn safely locks Isuzu steering rack without rubbing tire liners.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MAIN SCRIPT EXECUTION -->
+    <script>
+        const inputSteer = document.getElementById('input-steer');
+        const inputStiffness = document.getElementById('input-stiffness');
+        const labelStiffness = document.getElementById('label-stiffness');
+        const terminalCommand = document.getElementById('terminal-command');
+        
+        const outputServo = document.getElementById('output-servo');
+        const outputAxis = document.getElementById('output-axis');
+        const gaugeDeg = document.getElementById('gauge-deg');
+
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Dynamic High DPI Canvas Setup
+        function setupCanvas() {
+            const rect = canvas.parentNode.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+            ctx.scale(2, 2);
+        }
+
+        // Draw G29 Graphic on Canvas based on Current Calibration angle
+        function drawWheel(angleDeg) {
+            const width = canvas.width / 2;
+            const height = canvas.height / 2;
+            const cx = width / 2;
+            const cy = height / 2;
+            const radius = 60;
+            const angleRad = (angleDeg * Math.PI) / 180;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Save and translate coordinate context to Center point
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angleRad);
+
+            // Draw outer wheel rim
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, Math.PI * 2);
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 14;
+            ctx.stroke();
+
+            // Draw 2026 D-Max styling centering ribbon (orange alignment strip at top)
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, -Math.PI / 2 - 0.1, -Math.PI / 2 + 0.1);
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 15;
+            ctx.stroke();
+
+            // Draw Steering Spokes
+            ctx.strokeStyle = '#1f2937';
+            ctx.lineWidth = 10;
+            
+            // Left Spoke
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-radius + 5, 0);
+            ctx.stroke();
+
+            // Right Spoke
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(radius - 5, 0);
+            ctx.stroke();
+
+            // Bottom Spoke
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, radius - 5);
+            ctx.stroke();
+
+            // Center steering cap block
+            ctx.beginPath();
+            ctx.arc(0, 0, 18, 0, Math.PI * 2);
+            ctx.fillStyle = '#111827';
+            ctx.fill();
+            ctx.strokeStyle = '#4b5563';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function updateTelemetry() {
+            const rawDeg = parseInt(inputSteer.value);
+            const axisVal = (rawDeg / 180.0).toFixed(2);
+            
+            // Map 180 wheel bounds directly to 1:12 Scale Isuzu D-Max limits (60° Left to 120° Right)
+            // Linear transformation: (axis * 30) straight is 90°
+            const mappedServo = Math.round(90 - (axisVal * 30));
+
+            // Update DOM telemetry cards
+            gaugeDeg.innerText = `${rawDeg}°`;
+            outputAxis.innerText = axisVal;
+            outputServo.innerText = `${mappedServo}°`;
+
+            drawWheel(rawDeg);
+        }
+
+        function setFFPreset(preset) {
+            let value = 2000;
+            if (preset === 'low') value = 1000;
+            if (preset === 'high') value = 6000;
+            inputStiffness.value = value;
+            updateStiffness();
+        }
+
+        function updateStiffness() {
+            const value = parseInt(inputStiffness.value);
+            const percentage = Math.round((value / 10000) * 100);
+            labelStiffness.innerText = `${percentage}% Stiffness`;
+            terminalCommand.innerText = `ffset -a ${value} /dev/input/by-id/*Logitech*`;
+        }
+
+        // Initialize variables and handlers
+        window.onload = function() {
+            setupCanvas();
+            updateTelemetry();
+            updateStiffness();
+        };
+
+        window.onresize = function() {
+            setupCanvas();
+            updateTelemetry();
+        };
+
+        inputSteer.addEventListener('input', updateTelemetry);
+        inputStiffness.addEventListener('input', updateStiffness);
+    </script>
+</body>
+</html>
